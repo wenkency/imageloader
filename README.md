@@ -15,4 +15,4 @@ imageLoader.displayImage(view, url);
 
 #运行结果
 
-<img src="screenshot/image.png" width="720px"/>
+<img src="screenshot/image.jpg" width="720px"/>
