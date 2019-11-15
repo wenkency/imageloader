@@ -1,7 +1,7 @@
 # imageloader
 图片加载类，加载正常、圆形、圆角图片
 
-#引入
+### 引入
 
 ```
 allprojects {
@@ -16,7 +16,7 @@ implementation 'com.github.wenkency:imageloader:1.0.0'
 
 ```
 
-#使用方式
+### 使用方式
 ```
 private ImageView iv, ivCircle, ivRadius;
 private View view;
@@ -29,6 +29,6 @@ private View view;
     imageLoader.displayImage(view, url);
 ```
 
-#运行结果
+### 运行结果
 
 <img src="screenshot/image.jpg" width="360px"/>
