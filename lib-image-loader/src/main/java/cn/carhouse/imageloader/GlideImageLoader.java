@@ -65,6 +65,21 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         getDrawableRequestBuilder(iv, url).into(iv);
     }
 
+    @Override
+    public void displayImage(ImageView iv, int resId) {
+        if (iv == null) {
+            return;
+        }
+        Glide.with(iv)
+                .load(resId)
+                .placeholder(mLoadingDrawable)
+                .error(mErrorDrawable)
+                .fallback(mFallbackDrawable)
+                .thumbnail(SIZE_MULTIPLIER)
+                .override(mWidth, mHeight)
+                .format(DecodeFormat.PREFER_ARGB_8888).into(iv);
+    }
+
 
     @Override
     public void displayImage(ImageView iv, String url, int errorId) {

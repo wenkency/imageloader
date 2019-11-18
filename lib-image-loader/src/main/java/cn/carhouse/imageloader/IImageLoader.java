@@ -17,6 +17,7 @@ import android.widget.ImageView;
 public interface IImageLoader {
     void displayImage(ImageView iv, String url);
 
+
     void displayImage(ImageView iv, String url, int errorId);
 
     void displayCircleImage(ImageView iv, String url);
@@ -26,6 +27,11 @@ public interface IImageLoader {
     void displayRadiusImage(ImageView iv, String url, int radius);
 
     void displayRadiusImage(ImageView iv, String url, int radius, int errorId);
+
+    /**
+     * 加载本地图片
+     */
+    void displayImage(ImageView iv, int resId);
 
 
     void displayImage(View view, String url);
