@@ -1,5 +1,6 @@
 package cn.carhouse.imageloader;
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
@@ -184,4 +185,6 @@ public interface IImageLoader {
 
 
     void displayBlurImage(ImageView view, String url, int radius);
+
+    void clear(Context context);
 }

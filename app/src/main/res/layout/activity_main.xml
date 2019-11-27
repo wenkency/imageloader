@@ -11,19 +11,19 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingRight="20dp"
         tools:context=".MainActivity">
 
         <ImageView
             android:id="@+id/iv"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:scaleType="fitXY"
             android:layout_margin="5dp" />
 
         <ImageView
             android:id="@+id/iv_circle"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="5dp" />
 
         <ImageView
@@ -34,8 +34,8 @@
 
         <ImageView
             android:id="@+id/iv_blur"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_margin="5dp" />
         <View
             android:id="@+id/view"
@@ -55,11 +55,6 @@
             android:layout_height="50dp"
             android:layout_margin="5dp" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:src="@mipmap/ic_launcher" />
 
         <View
             android:id="@+id/view_circle"
