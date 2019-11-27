@@ -28,8 +28,7 @@ import java.security.MessageDigest;
 
 public class BlurTransformation extends CenterCrop {
     private static final int VERSION = 1;
-    private static final String ID =
-            "cn.carhouse.imageloader.trnsformation.BlurTransformation." + VERSION;
+    private static final String ID = "cn.carhouse.imageloader.trnsformation.BlurTransformation." + VERSION;
     public static final float DEFAULT_RADIUS = 25.0f;
     public static final float MAX_RADIUS = 25.0f;
     private static final float DEFAULT_SAMPLING = 1.0f;
