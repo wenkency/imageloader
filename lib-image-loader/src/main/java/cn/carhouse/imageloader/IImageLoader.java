@@ -182,4 +182,6 @@ public interface IImageLoader {
      */
     void displayRadiusImage(View view, int resId, int radius, int errorId);
 
+
+    void displayBlurImage(ImageView view, String url, int radius);
 }

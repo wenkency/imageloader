@@ -24,6 +24,9 @@ import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import cn.carhouse.imageloader.trnsformation.BlurTransformation;
+import cn.carhouse.imageloader.trnsformation.GlideCircleTransform;
+
 /**
  * ================================================================
  * 版权: 爱车小屋所有（C） 2019
@@ -231,6 +234,15 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
                 .into(new GlideCustomTarget(view, errorId));
     }
 
+    @Override
+    public void displayBlurImage(ImageView view, String url, int radius) {
+        Glide.with(view.getContext()).load(url)
+                .transform(new BlurTransformation(view.getContext(), radius))
+                .into(view);
+//        getRequestBuilder(Glide.with(view).load(url))
+//                .transform(new BlurTransformation(view.getContext(), radius))
+//                .into(view);
+    }
 
     private static class GlideCustomTarget extends CustomTarget<Drawable> {
         private View view;

@@ -10,7 +10,15 @@ allprojects {
 			maven { url 'https://jitpack.io' }
 		}
 	}
-
+android {
+    ...
+    defaultConfig {
+        ...
+        /*高斯模糊*/
+        renderscriptTargetApi targetSdkVersion
+        renderscriptSupportModeEnabled true
+    }
+}
 
 implementation 'com.github.wenkency:imageloader:1.1.0'
 

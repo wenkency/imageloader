@@ -1,4 +1,4 @@
-package cn.carhouse.imageloader;
+package cn.carhouse.imageloader.trnsformation;
 
 import android.content.Context;
 import android.graphics.Bitmap;

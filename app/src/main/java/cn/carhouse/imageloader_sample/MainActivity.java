@@ -11,7 +11,7 @@ import cn.carhouse.imageloader.ImageLoaderFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView iv, ivCircle, ivRadius,ivRes;
+    private ImageView iv, ivCircle, ivRadius,ivRes,ivBlur;
     private View view, viewRes, viewCircle, viewRadius;
 
     @Override
@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         iv = findViewById(R.id.iv);
         ivCircle = findViewById(R.id.iv_circle);
         ivRadius = findViewById(R.id.iv_radius);
+        ivBlur = findViewById(R.id.iv_blur);
         ivRes = findViewById(R.id.iv_res);
         view = findViewById(R.id.view);
         viewRes = findViewById(R.id.view_res);
@@ -40,5 +41,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.displayImage(ivRes,R.mipmap.ic_launcher);
         imageLoader.displayCircleImage(viewCircle,R.mipmap.ic_launcher);
         imageLoader.displayRadiusImage(viewRadius,R.mipmap.ic_launcher,10);
+
+        imageLoader.displayBlurImage(ivBlur,url,100);
     }
 }
