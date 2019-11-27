@@ -41,7 +41,7 @@ import cn.carhouse.imageloader.trnsformation.GlideCircleTransform;
 @GlideModule
 public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     public static final int ERROR_ID = -1;
-    private static boolean isThumbnail = true;
+    private static boolean isThumbnail = false;
     // 模糊加载
     public static final float SIZE_MULTIPLIER = 0.1f;
     private ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
