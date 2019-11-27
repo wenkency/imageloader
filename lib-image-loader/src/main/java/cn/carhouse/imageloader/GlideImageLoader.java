@@ -17,6 +17,7 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
@@ -287,15 +288,15 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder, int errorId) {
         if (errorId == ERROR_ID) {
-            builder.placeholder(mLoadingDrawable)
-                    .error(mErrorDrawable)
+            builder.error(mErrorDrawable)
                     .fallback(mFallbackDrawable)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .dontAnimate()
                     .format(DecodeFormat.PREFER_ARGB_8888);
         } else {
-            builder.placeholder(mLoadingDrawable)
-                    .error(errorId)
+            builder.error(errorId)
                     .fallback(errorId)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .dontAnimate()
                     .format(DecodeFormat.PREFER_ARGB_8888);
         }
@@ -334,6 +335,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
                 int width = view.getMeasuredWidth();
                 int height = view.getHeight();
                 if (width > 5 && height > 5) {
+                    builder.submit(width, height);
                     builder.override(width, height);
                 }
                 if (view instanceof ImageView) {
