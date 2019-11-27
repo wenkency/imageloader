@@ -290,11 +290,13 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             builder.placeholder(mLoadingDrawable)
                     .error(mErrorDrawable)
                     .fallback(mFallbackDrawable)
+                    .skipMemoryCache(true)
                     .format(DecodeFormat.PREFER_ARGB_8888);
         } else {
             builder.placeholder(mLoadingDrawable)
                     .error(errorId)
                     .fallback(errorId)
+                    .skipMemoryCache(true)
                     .format(DecodeFormat.PREFER_ARGB_8888);
         }
 
