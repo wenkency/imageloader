@@ -17,7 +17,6 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
@@ -41,6 +40,8 @@ import cn.carhouse.imageloader.trnsformation.GlideCircleTransform;
  */
 @GlideModule
 public class GlideImageLoader extends AppGlideModule implements IImageLoader {
+    private static final int mWidth = 480;
+    private static final int mHeight = 800;
     public static final int ERROR_ID = -1;
     private static boolean isThumbnail = false;
     // 模糊加载
@@ -288,19 +289,22 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder, int errorId) {
         if (errorId == ERROR_ID) {
-            builder.error(mErrorDrawable)
+            builder.placeholder(mLoadingDrawable)
+                    .error(mErrorDrawable)
                     .fallback(mFallbackDrawable)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .dontTransform()
                     .dontAnimate()
                     .format(DecodeFormat.PREFER_ARGB_8888);
+
         } else {
-            builder.error(errorId)
+            builder.placeholder(mLoadingDrawable)
+                    .error(errorId)
                     .fallback(errorId)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .dontTransform()
                     .dontAnimate()
                     .format(DecodeFormat.PREFER_ARGB_8888);
         }
-
+        builder.submit(mWidth, mHeight);
         if (isThumbnail) {
             builder.thumbnail(SIZE_MULTIPLIER);
         }
@@ -332,11 +336,6 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         @Override
         public void run() {
             try {
-                int width = view.getMeasuredWidth();
-                int height = view.getHeight();
-                if (width > 1 && height > 1) {
-                    builder.override(width, height);
-                }
                 if (view instanceof ImageView) {
                     builder.into((ImageView) view);
                 } else if (target != null) {
