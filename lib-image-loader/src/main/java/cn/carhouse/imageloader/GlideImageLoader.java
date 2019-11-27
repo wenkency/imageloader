@@ -334,8 +334,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             try {
                 int width = view.getMeasuredWidth();
                 int height = view.getHeight();
-                if (width > 5 && height > 5) {
-                    builder.submit(width, height);
+                if (width > 1 && height > 1) {
                     builder.override(width, height);
                 }
                 if (view instanceof ImageView) {
