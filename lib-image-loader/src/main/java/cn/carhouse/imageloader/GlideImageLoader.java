@@ -325,6 +325,11 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
         public void into() {
             try {
+                int width = view.getMeasuredWidth();
+                int height = view.getMeasuredHeight();
+                if (width > 1 && height > 1) {
+                    builder.override(width, height);
+                }
                 if (view instanceof ImageView) {
                     builder.into((ImageView) view);
                 } else if (target != null) {
