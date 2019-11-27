@@ -1,5 +1,6 @@
 package cn.carhouse.imageloader;
 
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,25 +16,126 @@ import android.widget.ImageView;
  * ================================================================
  */
 public interface IImageLoader {
+    /**
+     * 根据URL加载图片
+     *
+     * @param url 图片URL
+     */
     void displayImage(ImageView iv, String url);
 
-
+    /**
+     * 根据URL加载图片
+     *
+     * @param url     图片URL
+     * @param errorId 加载失败的显示资源ID
+     */
     void displayImage(ImageView iv, String url, int errorId);
 
-    void displayCircleImage(ImageView iv, String url);
-
-    void displayCircleImage(ImageView iv, String url, int errorId);
-
-    void displayRadiusImage(ImageView iv, String url, int radius);
-
-    void displayRadiusImage(ImageView iv, String url, int radius, int errorId);
 
     /**
      * 加载本地图片
+     *
+     * @param resId 本地资源
      */
     void displayImage(ImageView iv, int resId);
 
+    /**
+     * 加载本地图片
+     *
+     * @param resId   本地资源
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayImage(ImageView iv, int resId, int errorId);
 
+    /**
+     * 根据URL加载图片
+     *
+     * @param uri 图片Uri
+     */
+    void displayImage(ImageView iv, Uri uri);
+
+    /**
+     * 根据URL加载图片
+     *
+     * @param uri     图片Uri
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayImage(ImageView iv, Uri uri, int errorId);
+
+    /**
+     * 根据URL加载图片
+     *
+     * @param url 图片URL
+     */
     void displayImage(View view, String url);
+
+    /**
+     * 根据URL加载图片
+     *
+     * @param url     图片URL
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayImage(View view, String url, int errorId);
+
+
+    /**
+     * 根据URL加载圆形图片
+     *
+     * @param url 图片URL
+     */
+    void displayCircleImage(ImageView iv, String url);
+
+    /**
+     * 根据URL加载圆形图片
+     *
+     * @param url     图片URL
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayCircleImage(ImageView iv, String url, int errorId);
+
+    /**
+     * 根据URL加载圆形图片
+     *
+     * @param url 图片URL
+     */
+    void displayCircleImage(View view, String url);
+
+    /**
+     * 根据URL加载圆形图片
+     *
+     * @param url     图片URL
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayCircleImage(View view, String url, int errorId);
+
+    /**
+     * 根据URL加载圆角图片
+     *
+     * @param url 图片URL
+     */
+    void displayRadiusImage(ImageView iv, String url, int radius);
+
+    /**
+     * 根据URL加载圆角图片
+     *
+     * @param url     图片URL
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayRadiusImage(ImageView iv, String url, int radius, int errorId);
+
+    /**
+     * 根据URL加载圆角图片
+     *
+     * @param url 图片URL
+     */
+    void displayRadiusImage(View view, String url, int radius);
+
+    /**
+     * 根据URL加载圆角图片
+     *
+     * @param url     图片URL
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayRadiusImage(View view, String url, int radius, int errorId);
 
 }

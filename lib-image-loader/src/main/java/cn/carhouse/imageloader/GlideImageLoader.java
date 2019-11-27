@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,20 +71,34 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         if (iv == null) {
             return;
         }
-        Glide.with(iv)
-                .load(resId)
-                .placeholder(mLoadingDrawable)
-                .error(mErrorDrawable)
-                .fallback(mFallbackDrawable)
-                .thumbnail(SIZE_MULTIPLIER)
-                .override(mWidth, mHeight)
-                .format(DecodeFormat.PREFER_ARGB_8888).into(iv);
+        getRequestBuilder(Glide.with(iv).load(resId)).into(iv);
     }
 
+    @Override
+    public void displayImage(ImageView iv, int resId, int errorId) {
+        if (iv == null) {
+            return;
+        }
+        getRequestBuilder(Glide.with(iv).load(resId), errorId).into(iv);
+    }
 
     @Override
     public void displayImage(ImageView iv, String url, int errorId) {
         if (iv == null || TextUtils.isEmpty(url)) {
+            return;
+        }
+        getDrawableRequestBuilder(iv, url, errorId).into(iv);
+    }
+
+    public void displayImage(ImageView iv, Uri url) {
+        if (iv == null) {
+            return;
+        }
+        getDrawableRequestBuilder(iv, url).into(iv);
+    }
+
+    public void displayImage(ImageView iv, Uri url, int errorId) {
+        if (iv == null) {
             return;
         }
         getDrawableRequestBuilder(iv, url, errorId).into(iv);
@@ -108,6 +123,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
                 .circleCrop()
                 .into(iv);
     }
+
 
     @Override
     public void displayRadiusImage(ImageView iv, String url, int radius) {
@@ -135,39 +151,119 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         getDrawableRequestBuilder(view, url)
-                .into(new CustomTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        view.setBackgroundDrawable(resource);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                        view.setBackgroundDrawable(placeholder);
-                    }
-                });
+                .into(new GlideCustomTarget(view));
     }
 
+    @Override
+    public void displayImage(final View view, String url, final int errorId) {
+        if (view == null || TextUtils.isEmpty(url)) {
+            return;
+        }
+        getDrawableRequestBuilder(view, url)
+                .into(new GlideCustomTarget(view, errorId));
+    }
+
+    @Override
+    public void displayCircleImage(View view, String url) {
+        getDrawableRequestBuilder(view, url)
+                .circleCrop()
+                .into(new GlideCustomTarget(view));
+    }
+
+    @Override
+    public void displayCircleImage(View view, String url, int errorId) {
+        getDrawableRequestBuilder(view, url)
+                .circleCrop()
+                .into(new GlideCustomTarget(view, errorId));
+    }
+
+    @Override
+    public void displayRadiusImage(View view, String url, int radius) {
+        getDrawableRequestBuilder(view, url)
+                .transform(new GlideCircleTransform(view.getContext(), radius))
+                .into(new GlideCustomTarget(view));
+    }
+
+    @Override
+    public void displayRadiusImage(View view, String url, int radius, int errorId) {
+        getDrawableRequestBuilder(view, url)
+                .transform(new GlideCircleTransform(view.getContext(), radius))
+                .into(new GlideCustomTarget(view, errorId));
+    }
+
+
+    private static class GlideCustomTarget extends CustomTarget<Drawable> {
+        private View view;
+        private int errorId = -1;
+
+        public GlideCustomTarget(View view, int errorId) {
+            this.view = view;
+            this.errorId = errorId;
+        }
+
+        public GlideCustomTarget(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+            if (view == null) {
+                return;
+            }
+            view.setBackgroundDrawable(resource);
+        }
+
+        @Override
+        public void onLoadCleared(@Nullable Drawable placeholder) {
+            if (view == null) {
+                return;
+            }
+            view.setBackgroundDrawable(placeholder);
+        }
+
+        @Override
+        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+            if (errorId != -1) {
+                view.setBackgroundResource(errorId);
+            }
+        }
+    }
 
     private RequestBuilder<Drawable> getDrawableRequestBuilder(View view, String url) {
-        return Glide.with(view)
-                .load(url)
-                .placeholder(mLoadingDrawable)
-                .error(mErrorDrawable)
-                .fallback(mFallbackDrawable)
-                .thumbnail(SIZE_MULTIPLIER)
-                .override(mWidth, mHeight)
-                .format(DecodeFormat.PREFER_ARGB_8888);
+        return getRequestBuilder(Glide.with(view).load(url));
+
     }
 
+    private RequestBuilder<Drawable> getDrawableRequestBuilder(View view, Uri uri) {
+        return getRequestBuilder(Glide.with(view).load(uri));
+    }
+
+
     private RequestBuilder<Drawable> getDrawableRequestBuilder(View view, String url, int errorId) {
-        return Glide.with(view)
-                .load(url)
-                .placeholder(mLoadingDrawable)
+        return getRequestBuilder(Glide.with(view).load(url), errorId);
+    }
+
+    private RequestBuilder<Drawable> getDrawableRequestBuilder(View view, Uri url, int errorId) {
+        return getRequestBuilder(Glide.with(view).load(url), errorId);
+    }
+
+    private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder, int errorId) {
+        builder.placeholder(mLoadingDrawable)
                 .error(errorId)
                 .fallback(errorId)
                 .thumbnail(SIZE_MULTIPLIER)
                 .override(mWidth, mHeight)
                 .format(DecodeFormat.PREFER_ARGB_8888);
+        return builder;
+    }
+
+    private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder) {
+        builder.placeholder(mLoadingDrawable)
+                .error(mErrorDrawable)
+                .fallback(mFallbackDrawable)
+                .thumbnail(SIZE_MULTIPLIER)
+                .override(mWidth, mHeight)
+                .format(DecodeFormat.PREFER_ARGB_8888);
+        return builder;
     }
 }
