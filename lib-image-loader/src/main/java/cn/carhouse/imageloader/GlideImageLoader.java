@@ -289,22 +289,17 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder, int errorId) {
         if (errorId == ERROR_ID) {
-            builder.placeholder(mLoadingDrawable)
-                    .error(mErrorDrawable)
-                    .fallback(mFallbackDrawable)
+            builder.error(mErrorDrawable)
                     .dontTransform()
                     .dontAnimate()
                     .format(DecodeFormat.PREFER_ARGB_8888);
 
         } else {
-            builder.placeholder(mLoadingDrawable)
-                    .error(errorId)
-                    .fallback(errorId)
+            builder.error(errorId)
                     .dontTransform()
                     .dontAnimate()
                     .format(DecodeFormat.PREFER_ARGB_8888);
         }
-        builder.submit(mWidth, mHeight);
         if (isThumbnail) {
             builder.thumbnail(SIZE_MULTIPLIER);
         }
@@ -336,6 +331,11 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         @Override
         public void run() {
             try {
+                int width = view.getMeasuredWidth();
+                int height = view.getMeasuredHeight();
+                if (width > 1 && height > 1) {
+                    builder.override(width, height);
+                }
                 if (view instanceof ImageView) {
                     builder.into((ImageView) view);
                 } else if (target != null) {
