@@ -17,6 +17,7 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
@@ -47,8 +48,6 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     // 模糊加载
     public static final float SIZE_MULTIPLIER = 0.1f;
     private ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
-    private ColorDrawable mLoadingDrawable = new ColorDrawable(Color.parseColor("#f2f2f2"));
-    private ColorDrawable mFallbackDrawable = new ColorDrawable(Color.parseColor("#f2f2f2"));
 
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
@@ -289,20 +288,16 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder, int errorId) {
         if (errorId == ERROR_ID) {
-            builder.error(mErrorDrawable)
-                    .dontTransform()
-                    .dontAnimate()
-                    .format(DecodeFormat.PREFER_ARGB_8888);
-
+            builder.error(mErrorDrawable);
         } else {
-            builder.error(errorId)
-                    .dontTransform()
-                    .dontAnimate()
-                    .format(DecodeFormat.PREFER_ARGB_8888);
+            builder.error(errorId);
         }
         if (isThumbnail) {
             builder.thumbnail(SIZE_MULTIPLIER);
         }
+        builder.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .format(DecodeFormat.PREFER_ARGB_8888)
+                .submit(mWidth, mHeight);
         return builder;
     }
 

@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         viewCircle = findViewById(R.id.view_circle);
         viewRadius = findViewById(R.id.view_radius);
 
-        String url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573796397226&di=4ebc060b0d6f6a6509cdd08737d24e3a&imgtype=0&src=http%3A%2F%2Fpic26.nipic.com%2F20121225%2F9252150_165232606338_2.jpg";
+        String url = "https://img.car-house.cn/Upload/activity/20191126/EMBkW2wXZ8MHjXDTR8p6PjmcGTD44xdD.gif";
 
         IImageLoader imageLoader = ImageLoaderFactory.getInstance();
 
