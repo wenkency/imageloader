@@ -236,12 +236,9 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     @Override
     public void displayBlurImage(ImageView view, String url, int radius) {
-        Glide.with(view.getContext()).load(url)
+        getRequestBuilder(Glide.with(view).load(url))
                 .transform(new BlurTransformation(view.getContext(), radius))
                 .into(view);
-//        getRequestBuilder(Glide.with(view).load(url))
-//                .transform(new BlurTransformation(view.getContext(), radius))
-//                .into(view);
     }
 
     private static class GlideCustomTarget extends CustomTarget<Drawable> {
