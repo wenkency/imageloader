@@ -71,7 +71,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId);
-        iv.post(new Task(builder, iv));
+        new Task(builder, iv).into();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, resId, errorId);
-        iv.post(new Task(builder, iv));
+        new Task(builder, iv).into();
     }
 
 
@@ -98,7 +98,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId);
-        iv.post(new Task(builder, iv));
+        new Task(builder, iv).into();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId).circleCrop();
-        iv.post(new Task(builder, iv));
+        new Task(builder, iv).into();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, resId, errorId)
                 .circleCrop();
-        view.post(new Task(builder, view, target));
+        new Task(builder, view, target).into();
     }
 
 
@@ -144,7 +144,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId)
                 .transform(new GlideCircleTransform(iv.getContext(), radius));
-        iv.post(new Task(builder, iv));
+        new Task(builder, iv).into();
     }
 
     @Override
@@ -159,7 +159,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId);
-        view.post(new Task(builder, view, target));
+        new Task(builder, view, target).into();
     }
 
     @Override
@@ -174,7 +174,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, resId, errorId);
-        view.post(new Task(builder, view, target));
+        new Task(builder, view, target).into();
     }
 
     @Override
@@ -190,7 +190,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .circleCrop();
-        view.post(new Task(builder, view, target));
+        new Task(builder, view, target).into();
     }
 
     @Override
@@ -206,7 +206,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .transform(new GlideCircleTransform(view.getContext(), radius));
-        view.post(new Task(builder, view, target));
+        new Task(builder, view, target).into();
     }
 
     @Override
@@ -222,7 +222,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, resId, errorId)
                 .transform(new GlideCircleTransform(view.getContext(), radius));
-        view.post(new Task(builder, view, target));
+        new Task(builder, view, target).into();
     }
 
     @Override
@@ -232,7 +232,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         RequestBuilder<Drawable> builder = getBuilder(view, url, ERROR_ID)
                 .transform(new BlurTransformation(view.getContext(), radius));
-        view.post(new Task(builder, view));
+        new Task(builder, view).into();
     }
 
     @Override
@@ -307,7 +307,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     }
 
 
-    private static class Task implements Runnable {
+    private static class Task {
         RequestBuilder<Drawable> builder;
         View view;
         GlideCustomTarget target;
@@ -323,8 +323,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             this.target = target;
         }
 
-        @Override
-        public void run() {
+        public void into() {
             try {
                 int width = view.getMeasuredWidth();
                 int height = view.getMeasuredHeight();
