@@ -77,6 +77,20 @@ public interface IImageLoader {
      */
     void displayImage(View view, String url, int errorId);
 
+    /**
+     * 加载本地图片
+     *
+     * @param resId 本地资源
+     */
+    void displayImage(View view, int resId);
+
+    /**
+     * 加载本地图片
+     *
+     * @param resId   本地资源
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayImage(View view, int resId, int errorId);
 
     /**
      * 根据URL加载圆形图片
@@ -92,6 +106,21 @@ public interface IImageLoader {
      * @param errorId 加载失败的显示资源ID
      */
     void displayCircleImage(ImageView iv, String url, int errorId);
+
+    /**
+     * 加载本地图片
+     *
+     * @param resId 本地资源
+     */
+    void displayCircleImage(View view, int resId);
+
+    /**
+     * 加载本地图片
+     *
+     * @param resId   本地资源
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayCircleImage(View view, int resId, int errorId);
 
     /**
      * 根据URL加载圆形图片
@@ -137,5 +166,20 @@ public interface IImageLoader {
      * @param errorId 加载失败的显示资源ID
      */
     void displayRadiusImage(View view, String url, int radius, int errorId);
+
+    /**
+     * 加载本地图片
+     *
+     * @param resId 本地资源
+     */
+    void displayRadiusImage(View view, int resId, int radius);
+
+    /**
+     * 加载本地图片
+     *
+     * @param resId   本地资源
+     * @param errorId 加载失败的显示资源ID
+     */
+    void displayRadiusImage(View view, int resId, int radius, int errorId);
 
 }

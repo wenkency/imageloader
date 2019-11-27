@@ -38,8 +38,13 @@ import com.bumptech.glide.request.transition.Transition;
 @GlideModule
 public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
-    private int mWidth = 480;
-    private int mHeight = 800;
+    private static int mWidth = 480;
+    private static int mHeight = 800;
+    // 模糊加载
+    public static final float SIZE_MULTIPLIER = 0.1f;
+    private ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
+    private ColorDrawable mLoadingDrawable = new ColorDrawable(Color.parseColor("#f2f2f2"));
+    private ColorDrawable mFallbackDrawable = new ColorDrawable(Color.parseColor("#f2f2f2"));
 
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
@@ -51,12 +56,6 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         builder.setMemoryCache(new LruResourceCache(customMemoryCacheSize));
         builder.setBitmapPool(new LruBitmapPool(customBitmapPoolSize));
     }
-
-    // 模糊加载
-    public static final float SIZE_MULTIPLIER = 0.1f;
-    private ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
-    private ColorDrawable mLoadingDrawable = new ColorDrawable(Color.parseColor("#f2f2f2"));
-    private ColorDrawable mFallbackDrawable = new ColorDrawable(Color.parseColor("#f2f2f2"));
 
     @Override
     public void displayImage(ImageView iv, String url) {
@@ -124,6 +123,20 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
                 .into(iv);
     }
 
+    @Override
+    public void displayCircleImage(View view, int resId) {
+        getRequestBuilder(Glide.with(view).load(resId))
+                .circleCrop()
+                .into(new GlideCustomTarget(view));
+    }
+
+    @Override
+    public void displayCircleImage(View view, int resId, int errorId) {
+        getRequestBuilder(Glide.with(view).load(resId))
+                .circleCrop()
+                .into(new GlideCustomTarget(view, errorId));
+    }
+
 
     @Override
     public void displayRadiusImage(ImageView iv, String url, int radius) {
@@ -164,6 +177,18 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     }
 
     @Override
+    public void displayImage(View view, int resId) {
+        getRequestBuilder(Glide.with(view).load(resId))
+                .into(new GlideCustomTarget(view));
+    }
+
+    @Override
+    public void displayImage(View view, int resId, int errorId) {
+        getRequestBuilder(Glide.with(view).load(resId))
+                .into(new GlideCustomTarget(view, errorId));
+    }
+
+    @Override
     public void displayCircleImage(View view, String url) {
         getDrawableRequestBuilder(view, url)
                 .circleCrop()
@@ -187,6 +212,21 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     @Override
     public void displayRadiusImage(View view, String url, int radius, int errorId) {
         getDrawableRequestBuilder(view, url)
+                .transform(new GlideCircleTransform(view.getContext(), radius))
+                .into(new GlideCustomTarget(view, errorId));
+    }
+
+    @Override
+    public void displayRadiusImage(View view, int resId, int radius) {
+        getRequestBuilder(Glide.with(view).load(resId))
+                .transform(new GlideCircleTransform(view.getContext(), radius))
+                .into(new GlideCustomTarget(view));
+
+    }
+
+    @Override
+    public void displayRadiusImage(View view, int resId, int radius, int errorId) {
+        getRequestBuilder(Glide.with(view).load(resId))
                 .transform(new GlideCircleTransform(view.getContext(), radius))
                 .into(new GlideCustomTarget(view, errorId));
     }
@@ -266,4 +306,10 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
                 .format(DecodeFormat.PREFER_ARGB_8888);
         return builder;
     }
+
+    public static void setOverride(int width, int height) {
+        mWidth = width;
+        mHeight = height;
+    }
+
 }

@@ -1,5 +1,9 @@
 package cn.carhouse.imageloader;
 
+import androidx.collection.ArrayMap;
+
+import java.util.Map;
+
 /**
  * ================================================================
  * 版权: 爱车小屋所有（C） 2019
@@ -13,10 +17,17 @@ package cn.carhouse.imageloader;
  */
 public class ImageLoaderFactory {
 
+    private static Map<Class, IImageLoader> loaders = new ArrayMap<>(2);
+
     public static <I extends IImageLoader> I createImageLoader(Class<I> clz) {
+        IImageLoader loader = loaders.get(clz);
+        if (loader != null) {
+            return (I) loader;
+        }
         I imageLoader = null;
         try {
             imageLoader = clz.newInstance();
+            loaders.put(clz, imageLoader);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,4 +40,7 @@ public class ImageLoaderFactory {
     public static IImageLoader getInstance() {
         return createImageLoader(GlideImageLoader.class);
     }
+
+
+
 }  
