@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -332,7 +331,6 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             try {
                 int width = view.getMeasuredWidth();
                 int height = view.getHeight();
-                Log.e("Task", width + "====" + height);
                 if (width > 5 && height > 5) {
                     builder.override(width, height);
                 }
