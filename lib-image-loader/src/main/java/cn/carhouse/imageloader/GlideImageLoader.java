@@ -27,6 +27,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import cn.carhouse.imageloader.trnsformation.BlurTransformation;
 import cn.carhouse.imageloader.trnsformation.GlideCircleTransform;
+import cn.carhouse.imageloader.utils.LoaderUtils;
 
 /**
  * ================================================================
@@ -44,7 +45,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     private static final int mWidth = 480;
     private static final int mHeight = 800;
     public static final int ERROR_ID = -1;
-    private static boolean isThumbnail = false;
+    private static boolean isThumbnail = true;
     // 模糊加载
     public static final float SIZE_MULTIPLIER = 0.1f;
     private ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
@@ -71,7 +72,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId);
-        new Task(builder, iv).into();
+        LoaderUtils.into(builder, iv);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, resId, errorId);
-        new Task(builder, iv).into();
+        LoaderUtils.into(builder, iv);
     }
 
 
@@ -98,7 +99,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId);
-        new Task(builder, iv).into();
+        LoaderUtils.into(builder, iv);
     }
 
     @Override
@@ -112,7 +113,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             return;
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId).circleCrop();
-        new Task(builder, iv).into();
+        LoaderUtils.into(builder, iv);
     }
 
     @Override
@@ -128,7 +129,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, resId, errorId)
                 .circleCrop();
-        new Task(builder, view, target).into();
+        LoaderUtils.into(builder, view, target);
     }
 
 
@@ -144,7 +145,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId)
                 .transform(new GlideCircleTransform(iv.getContext(), radius));
-        new Task(builder, iv).into();
+        LoaderUtils.into(builder, iv);
     }
 
     @Override
@@ -159,7 +160,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId);
-        new Task(builder, view, target).into();
+        LoaderUtils.into(builder, view, target);
     }
 
     @Override
@@ -174,7 +175,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, resId, errorId);
-        new Task(builder, view, target).into();
+        LoaderUtils.into(builder, view, target);
     }
 
     @Override
@@ -190,7 +191,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .circleCrop();
-        new Task(builder, view, target).into();
+        LoaderUtils.into(builder, view, target);
     }
 
     @Override
@@ -206,7 +207,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .transform(new GlideCircleTransform(view.getContext(), radius));
-        new Task(builder, view, target).into();
+        LoaderUtils.into(builder, view, target);
     }
 
     @Override
@@ -222,7 +223,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, resId, errorId)
                 .transform(new GlideCircleTransform(view.getContext(), radius));
-        new Task(builder, view, target).into();
+        LoaderUtils.into(builder, view, target);
     }
 
     @Override
@@ -232,7 +233,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         RequestBuilder<Drawable> builder = getBuilder(view, url, ERROR_ID)
                 .transform(new BlurTransformation(view.getContext(), radius));
-        new Task(builder, view).into();
+        LoaderUtils.into(builder, view);
     }
 
     @Override
@@ -240,7 +241,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         Glide.get(context).clearMemory();
     }
 
-    private static class GlideCustomTarget extends CustomTarget<Drawable> {
+    public static class GlideCustomTarget extends CustomTarget<Drawable> {
         private View view;
         private int errorId;
 
@@ -306,38 +307,4 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideImageLoader.isThumbnail = isThumbnail;
     }
 
-
-    private static class Task {
-        RequestBuilder<Drawable> builder;
-        View view;
-        GlideCustomTarget target;
-
-        public Task(RequestBuilder<Drawable> builder, View view) {
-            this.builder = builder;
-            this.view = view;
-        }
-
-        public Task(RequestBuilder<Drawable> builder, View view, GlideCustomTarget target) {
-            this.builder = builder;
-            this.view = view;
-            this.target = target;
-        }
-
-        public void into() {
-            try {
-                int width = view.getMeasuredWidth();
-                int height = view.getMeasuredHeight();
-                if (width > 1 && height > 1) {
-                    builder.override(width, height);
-                }
-                if (view instanceof ImageView) {
-                    builder.into((ImageView) view);
-                } else if (target != null) {
-                    builder.into(target);
-                }
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

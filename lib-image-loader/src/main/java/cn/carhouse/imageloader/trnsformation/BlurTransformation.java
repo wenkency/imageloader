@@ -5,20 +5,16 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
-import androidx.renderscript.Allocation;
-import androidx.renderscript.Element;
-import androidx.renderscript.RenderScript;
-import androidx.renderscript.ScriptIntrinsicBlur;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.security.MessageDigest;
+
+import cn.carhouse.imageloader.utils.FastBlurUtils;
 
 
 /**
@@ -89,34 +85,14 @@ public class BlurTransformation extends CenterCrop {
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         }
-
         Canvas canvas = new Canvas(bitmap);
         if (mSampling != DEFAULT_SAMPLING) {
             canvas.scale(1 / mSampling, 1 / mSampling);
         }
         Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
-        PorterDuffColorFilter filter =
-                new PorterDuffColorFilter(mColor, PorterDuff.Mode.SRC_ATOP);
-        paint.setColorFilter(filter);
+        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(toTransform, 0, 0, paint);
-        RenderScript rs = RenderScript.create(mContext);
-        Allocation input = Allocation.createFromBitmap(rs, bitmap, Allocation.MipmapControl.MIPMAP_NONE,
-                Allocation.USAGE_SCRIPT);
-        Allocation output = Allocation.createTyped(rs, input.getType());
-        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-        blur.setInput(input);
-        blur.setRadius(mRadius);
-        blur.forEach(output);
-        output.copyTo(bitmap);
-        rs.destroy();
-        if (needScaled) {
-            return bitmap;
-        } else {
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, originWidth, originHeight, true);
-            bitmap.recycle();
-            return scaled;
-        }
+        return FastBlurUtils.blur(bitmap, (int) mRadius, true);
     }
 
     @Override
@@ -133,6 +109,6 @@ public class BlurTransformation extends CenterCrop {
 
     @Override
     public int hashCode() {
-        return (int) (ID.hashCode() + mRadius * 1000 + mSampling * 10);
+        return (ID.hashCode() + (int) mRadius * 1000 + (int) mSampling * 10);
     }
 }

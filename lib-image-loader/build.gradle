@@ -12,10 +12,6 @@ android {
         targetSdkVersion app.targetSdkVersion
         versionCode app.versionCode
         versionName app.versionName
-
-        /*高斯模糊-->EasyBlur*/
-        renderscriptTargetApi app.targetSdkVersion
-        renderscriptSupportModeEnabled true
     }
 
     buildTypes {

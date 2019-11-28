@@ -27,7 +27,8 @@ import java.security.MessageDigest;
  * ================================================================
  */
 public class GlideCircleTransform extends BitmapTransformation {
-
+    private static final int VERSION = 1;
+    private static final String ID = "cn.carhouse.imageloader.trnsformation.GlideCircleTransform." + VERSION;
     private float mRadius;
 
     public GlideCircleTransform(Context context, int radius) {
@@ -41,13 +42,12 @@ public class GlideCircleTransform extends BitmapTransformation {
 
     @Override
     protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
-
         return roundCrop(pool, toTransform);
     }
 
     @Override
     public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-
+        messageDigest.update((ID + mRadius).getBytes(CHARSET));
     }
 
     public Bitmap roundCrop(@NonNull BitmapPool pool, @NonNull Bitmap source) {
@@ -59,7 +59,6 @@ public class GlideCircleTransform extends BitmapTransformation {
         if (result == null) {
             result = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
         }
-
         Canvas canvas = new Canvas(result);
         Paint paint = new Paint();
         paint.setShader(new BitmapShader(source, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
@@ -68,5 +67,16 @@ public class GlideCircleTransform extends BitmapTransformation {
         canvas.drawRoundRect(rectF, mRadius, mRadius, paint);
         canvas.setBitmap(null);
         return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return (ID.hashCode() + (int) mRadius * 1000);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof GlideCircleTransform &&
+                ((GlideCircleTransform) o).mRadius == mRadius;
     }
 }
