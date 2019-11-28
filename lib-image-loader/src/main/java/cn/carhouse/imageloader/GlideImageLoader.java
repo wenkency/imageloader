@@ -290,15 +290,16 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder, int errorId) {
         if (errorId == ERROR_ID) {
-            builder.error(mErrorDrawable);
+            builder.error(mErrorDrawable)
+                    .placeholder(mLoadingDrawable);
         } else {
-            builder.error(errorId);
+            builder.error(errorId)
+                    .placeholder(errorId);
         }
         if (isThumbnail) {
             builder.thumbnail(SIZE_MULTIPLIER);
         }
         builder.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .placeholder(mLoadingDrawable)
                 .format(DecodeFormat.PREFER_ARGB_8888)
                 .submit(mWidth, mHeight);
         return builder;
