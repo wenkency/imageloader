@@ -42,10 +42,10 @@ import cn.carhouse.imageloader.utils.LoaderUtils;
  */
 @GlideModule
 public class GlideImageLoader extends AppGlideModule implements IImageLoader {
-    private static final int mWidth = 480;
-    private static final int mHeight = 800;
+    private static int mWidth = 480;
+    private static int mHeight = 800;
     public static final int ERROR_ID = -1;
-    private static boolean isThumbnail = true;
+    private static boolean isThumbnail = false;
     // 模糊加载
     public static final float SIZE_MULTIPLIER = 0.1f;
     private ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
@@ -302,7 +302,17 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         return builder;
     }
 
+    /**
+     * 设置默认缓存图片大小
+     */
+    public static void submit(int width, int height) {
+        mWidth = width;
+        mHeight = height;
+    }
 
+    /**
+     * 设置要不要模糊加载
+     */
     public static void setIsThumbnail(boolean isThumbnail) {
         GlideImageLoader.isThumbnail = isThumbnail;
     }

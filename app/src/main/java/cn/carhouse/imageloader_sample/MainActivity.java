@@ -42,6 +42,6 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.displayCircleImage(viewCircle, R.mipmap.ic_launcher);
         imageLoader.displayRadiusImage(viewRadius, R.mipmap.ic_launcher, 10);
 
-        imageLoader.displayBlurImage(ivBlur, url, 100);
+        imageLoader.displayBlurImage(ivBlur, url, 50);
     }
 }
