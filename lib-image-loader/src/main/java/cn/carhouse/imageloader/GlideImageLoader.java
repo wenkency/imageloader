@@ -49,6 +49,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     // 模糊加载
     public static final float SIZE_MULTIPLIER = 0.1f;
     private ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
+    private ColorDrawable mLoadingDrawable = new ColorDrawable(Color.parseColor("#fff2f2f2"));
 
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
@@ -297,6 +298,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
             builder.thumbnail(SIZE_MULTIPLIER);
         }
         builder.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .placeholder(mLoadingDrawable)
                 .format(DecodeFormat.PREFER_ARGB_8888)
                 .submit(mWidth, mHeight);
         return builder;
@@ -317,4 +319,17 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideImageLoader.isThumbnail = isThumbnail;
     }
 
+    /**
+     * 加载显示的ColorDrawable
+     */
+    public void setLoadingDrawable(ColorDrawable loadingDrawable) {
+        this.mLoadingDrawable = loadingDrawable;
+    }
+
+    /**
+     * 失败显示的ColorDrawable
+     */
+    public void setErrorDrawable(ColorDrawable errorDrawable) {
+        this.mErrorDrawable = errorDrawable;
+    }
 }
