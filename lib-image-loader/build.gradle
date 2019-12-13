@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-
 // 远程仓库
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.wenkency'
@@ -18,6 +17,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    //忽略警告
+    lintOptions {
+        abortOnError false
     }
 
 }
