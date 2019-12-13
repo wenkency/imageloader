@@ -1,17 +1,16 @@
 apply plugin: 'com.android.library'
+
 // 远程仓库
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.wenkency'
-def app = rootProject.ext.app
-def depsVersion = rootProject.ext.depsVersion
-android {
-    compileSdkVersion app.compileSdkVersion
 
+android {
+    compileSdkVersion this.app.compileSdkVersion
     defaultConfig {
-        minSdkVersion app.minSdkVersion
-        targetSdkVersion app.targetSdkVersion
-        versionCode app.versionCode
-        versionName app.versionName
+        minSdkVersion this.app.minSdkVersion
+        targetSdkVersion this.app.targetSdkVersion
+        versionCode this.app.versionCode
+        versionName this.app.versionName
     }
 
     buildTypes {
@@ -26,7 +25,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "androidx.appcompat:appcompat:${depsVersion.appcompat}"
-    api "com.github.bumptech.glide:glide:${depsVersion.glide}"
-    annotationProcessor "com.github.bumptech.glide:compiler:${depsVersion.glideComplier}"
+    implementation "androidx.appcompat:appcompat:${this.depsVersion.appcompat}"
+    api "com.github.bumptech.glide:glide:${this.depsVersion.glide}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${this.depsVersion.glideComplier}"
 }
+// 在这里引用 就可以
+apply from: 'push.gradle'

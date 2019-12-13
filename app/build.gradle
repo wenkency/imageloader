@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
-def depsVersion = rootProject.ext.depsVersion
 android {
-    compileSdkVersion app.compileSdkVersion
+    compileSdkVersion this.app.compileSdkVersion
     defaultConfig {
-        minSdkVersion app.minSdkVersion
-        targetSdkVersion app.targetSdkVersion
-        versionCode app.versionCode
-        versionName app.versionName
+        minSdkVersion this.app.minSdkVersion
+        targetSdkVersion this.app.targetSdkVersion
+        versionCode this.app.versionCode
+        versionName this.app.versionName
         applicationId "cn.carhouse.imageloader_sample"
     }
     buildTypes {
@@ -19,7 +18,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.appcompat:appcompat:${depsVersion.appcompat}"
-    implementation "androidx.constraintlayout:constraintlayout:${depsVersion.constraintlayout}"
+    implementation "androidx.appcompat:appcompat:${this.depsVersion.appcompat}"
+    implementation "androidx.constraintlayout:constraintlayout:${this.depsVersion.constraintlayout}"
     implementation project(path: ':lib-image-loader')
 }
