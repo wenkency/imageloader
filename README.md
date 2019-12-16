@@ -1,6 +1,6 @@
 # imageloader
 [![](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-&emsp;&emsp;[![](https://img.shields.io/badge/version-1.0.2-yellow.svg)](https://bintray.com/lfw/mavenRelease/imageloader/1.7.0)
+&emsp;&emsp;[![](https://img.shields.io/badge/version-1.7.0-yellow.svg)](https://bintray.com/lfw/mavenRelease/imageloader/1.7.0)
 
 > 图片加载类，加载正常、圆形、圆角图片、高斯模糊图片等
 
