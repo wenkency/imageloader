@@ -6,7 +6,7 @@
 
 ### 引入
 
-```
+```android
 allprojects {
 		repositories {
 			...
@@ -19,7 +19,7 @@ implementation 'com.github.wenkency:imageloader:1.7.0'
 ```
 
 ### 使用方式
-```
+```android
         String url = "https://img.car-house.cn/Upload/activity/20191126/EMBkW2wXZ8MHjXDTR8p6PjmcGTD44xdD.gif";
 
         IImageLoader imageLoader = ImageLoaderFactory.getInstance();
