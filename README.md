@@ -1,5 +1,8 @@
 # imageloader
-图片加载类，加载正常、圆形、圆角图片、高斯模糊图片等
+[![](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+&emsp;&emsp;[![](https://img.shields.io/badge/version-1.0.2-yellow.svg)](https://bintray.com/lfw/mavenRelease/imageloader/1.7.0)
+
+> 图片加载类，加载正常、圆形、圆角图片、高斯模糊图片等
 
 ### 引入
 
@@ -38,5 +41,4 @@ implementation 'com.github.wenkency:imageloader:1.7.0'
 ```
 
 ### 运行结果
-
-<img src="screenshot/image.jpg" width="360px"/>
+![](screenshot/image.jpg "运行结果")
