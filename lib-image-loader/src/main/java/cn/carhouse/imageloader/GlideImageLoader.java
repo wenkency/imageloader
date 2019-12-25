@@ -1,5 +1,6 @@
 package cn.carhouse.imageloader;
 
+import android.app.Notification;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +24,10 @@ import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.NotificationTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import cn.carhouse.imageloader.trnsformation.BlurTransformation;
@@ -288,6 +293,10 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         return getRequestBuilder(Glide.with(view).load(resId), errorId);
     }
 
+    private RequestBuilder<Drawable> getBuilder(Context context, String url, int errorId) {
+        return getRequestBuilder(Glide.with(context).load(url), errorId);
+    }
+
     private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder, int errorId) {
         if (errorId == ERROR_ID) {
             builder.error(mErrorDrawable)
@@ -332,5 +341,43 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
      */
     public void setErrorDrawable(ColorDrawable errorDrawable) {
         this.mErrorDrawable = errorDrawable;
+    }
+
+    /**
+     * 为notification加载图
+     */
+    @Override
+    public void displayNotificationImage(Context context, Notification notification, RemoteViews rv,
+                                         int viewId, int notificationId, String url) {
+        NotificationTarget target = initNotificationTarget(context, rv, viewId, notification, notificationId);
+        this.displayTargetImage(context, url, target);
+    }
+
+    /**
+     * 为非view加载图片
+     */
+    @Override
+    public void displayTargetImage(Context context, String url, Target target) {
+        this.displayTargetImage(context, url, target, null);
+    }
+
+    /**
+     * 为非view加载图片
+     */
+    @Override
+    public void displayTargetImage(Context context, String url, Target target, RequestListener listener) {
+        getBuilder(context, url, ERROR_ID)
+                .listener(listener)
+                .into(target);
+    }
+
+    /*
+     * 初始化Notification Target
+     */
+    private NotificationTarget initNotificationTarget(Context context, RemoteViews rv, int viewId,
+                                                      Notification notification, int notificationId) {
+        NotificationTarget notificationTarget =
+                new NotificationTarget(context, viewId, rv, notification, notificationId);
+        return notificationTarget;
     }
 }

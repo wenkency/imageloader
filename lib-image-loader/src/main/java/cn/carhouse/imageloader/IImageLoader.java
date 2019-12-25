@@ -1,9 +1,14 @@
 package cn.carhouse.imageloader;
 
+import android.app.Notification;
 import android.content.Context;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
+
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 /**
  * ================================================================
@@ -185,6 +190,24 @@ public interface IImageLoader {
 
 
     void displayBlurImage(ImageView view, String url, int radius);
+
+
+    /**
+     * 加载图片到通知栏
+     *
+     * @param context
+     * @param notification
+     * @param rv             远程的View
+     * @param viewId
+     * @param notificationId
+     * @param url
+     */
+    void displayNotificationImage(Context context, Notification notification, RemoteViews rv,
+                                  int viewId, int notificationId, String url);
+
+    void displayTargetImage(Context context, String url, Target target, RequestListener listener);
+
+    void displayTargetImage(Context context, String url, Target target);
 
     void clear(Context context);
 }
