@@ -257,9 +257,10 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
+        GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .transform(new BlurTransformation(view.getContext(), radius));
-        LoaderUtils.into(builder, view);
+        LoaderUtils.into(builder, view,target);
     }
 
     @Override
