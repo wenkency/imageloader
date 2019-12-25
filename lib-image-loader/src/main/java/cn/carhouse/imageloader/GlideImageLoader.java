@@ -293,9 +293,6 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         return getRequestBuilder(Glide.with(view).load(resId), errorId);
     }
 
-    private RequestBuilder<Drawable> getBuilder(Context context, String url, int errorId) {
-        return getRequestBuilder(Glide.with(context).load(url), errorId);
-    }
 
     private RequestBuilder<Drawable> getRequestBuilder(RequestBuilder<Drawable> builder, int errorId) {
         if (errorId == ERROR_ID) {
@@ -366,9 +363,14 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
      */
     @Override
     public void displayTargetImage(Context context, String url, Target target, RequestListener listener) {
-        getBuilder(context, url, ERROR_ID)
-                .listener(listener)
-                .into(target);
+        RequestBuilder builder = Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .format(DecodeFormat.PREFER_ARGB_8888)
+                .listener(listener);
+        builder.submit(mWidth, mHeight);
+        builder.into(target);
     }
 
     /*
