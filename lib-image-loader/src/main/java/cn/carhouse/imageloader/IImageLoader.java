@@ -191,6 +191,12 @@ public interface IImageLoader {
 
     void displayBlurImage(ImageView view, String url, int radius);
 
+    void displayBlurImage(ImageView view, String url, int radius, int errorId);
+
+    void displayBlurImage(View view, String url, int radius, int errorId);
+
+    void displayBlurImage(View view, String url, int radius);
+
 
     /**
      * 加载图片到通知栏

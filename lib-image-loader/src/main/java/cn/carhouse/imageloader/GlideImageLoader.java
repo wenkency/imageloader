@@ -234,10 +234,30 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     @Override
     public void displayBlurImage(ImageView view, String url, int radius) {
+        displayBlurImage(view, url, radius, ERROR_ID);
+    }
+
+    @Override
+    public void displayBlurImage(ImageView view, String url, int radius, int errorId) {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
-        RequestBuilder<Drawable> builder = getBuilder(view, url, ERROR_ID)
+        RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
+                .transform(new BlurTransformation(view.getContext(), radius));
+        LoaderUtils.into(builder, view);
+    }
+
+    @Override
+    public void displayBlurImage(View view, String url, int radius) {
+        this.displayBlurImage(view, url, radius, ERROR_ID);
+    }
+
+    @Override
+    public void displayBlurImage(View view, String url, int radius, int errorId) {
+        if (view == null || TextUtils.isEmpty(url)) {
+            return;
+        }
+        RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .transform(new BlurTransformation(view.getContext(), radius));
         LoaderUtils.into(builder, view);
     }
