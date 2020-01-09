@@ -53,8 +53,8 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     private static boolean isThumbnail = false;
     // 模糊加载
     public static final float SIZE_MULTIPLIER = 0.1f;
-    private ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
-    private ColorDrawable mLoadingDrawable = new ColorDrawable(Color.parseColor("#fff2f2f2"));
+    private static ColorDrawable mErrorDrawable = new ColorDrawable(Color.TRANSPARENT);
+    private static ColorDrawable mLoadingDrawable = new ColorDrawable(Color.TRANSPARENT);
 
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
@@ -260,7 +260,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .transform(new BlurTransformation(view.getContext(), radius));
-        LoaderUtils.into(builder, view,target);
+        LoaderUtils.into(builder, view, target);
     }
 
     @Override
@@ -332,34 +332,6 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         return builder;
     }
 
-    /**
-     * 设置默认缓存图片大小
-     */
-    public static void submit(int width, int height) {
-        mWidth = width;
-        mHeight = height;
-    }
-
-    /**
-     * 设置要不要模糊加载
-     */
-    public static void setIsThumbnail(boolean isThumbnail) {
-        GlideImageLoader.isThumbnail = isThumbnail;
-    }
-
-    /**
-     * 加载显示的ColorDrawable
-     */
-    public void setLoadingDrawable(ColorDrawable loadingDrawable) {
-        this.mLoadingDrawable = loadingDrawable;
-    }
-
-    /**
-     * 失败显示的ColorDrawable
-     */
-    public void setErrorDrawable(ColorDrawable errorDrawable) {
-        this.mErrorDrawable = errorDrawable;
-    }
 
     /**
      * 为notification加载图
@@ -402,5 +374,35 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         NotificationTarget notificationTarget =
                 new NotificationTarget(context, viewId, rv, notification, notificationId);
         return notificationTarget;
+    }
+
+
+    /**
+     * 设置默认缓存图片大小
+     */
+    public static void submit(int width, int height) {
+        mWidth = width;
+        mHeight = height;
+    }
+
+    /**
+     * 设置要不要模糊加载
+     */
+    public static void setIsThumbnail(boolean isThumbnail) {
+        GlideImageLoader.isThumbnail = isThumbnail;
+    }
+
+    /**
+     * 加载显示的ColorDrawable
+     */
+    public static void setLoadingDrawable(ColorDrawable loadingDrawable) {
+        mLoadingDrawable = loadingDrawable;
+    }
+
+    /**
+     * 失败显示的ColorDrawable
+     */
+    public static void setErrorDrawable(ColorDrawable errorDrawable) {
+        mErrorDrawable = errorDrawable;
     }
 }
