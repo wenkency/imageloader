@@ -59,7 +59,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
         MemorySizeCalculator calculator = new MemorySizeCalculator.Builder(context)
-                .setMemoryCacheScreens(2)
+                .setMemoryCacheScreens(3)
                 .build();
         int defaultMemoryCacheSize = calculator.getMemoryCacheSize();//16588800
         int defaultBitmapPoolSize = calculator.getBitmapPoolSize();//33177600
