@@ -14,7 +14,7 @@ allprojects {
 		}
 	}}
 
-implementation 'com.github.wenkency:imageloader:2.1.0'
+implementation 'com.github.wenkency:imageloader:2.2.0'
 
 ```
 
