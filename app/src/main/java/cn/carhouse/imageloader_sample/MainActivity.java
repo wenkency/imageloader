@@ -1,10 +1,17 @@
 package cn.carhouse.imageloader_sample;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import cn.carhouse.imageloader.IImageLoader;
 import cn.carhouse.imageloader.ImageLoaderFactory;
@@ -43,5 +50,20 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.displayRadiusImage(viewRadius, R.mipmap.ic_launcher, 10);
 
         imageLoader.displayBlurImage(ivBlur, url, 50);
+
+        // 去加载图片，要自己在onResourceReady处理
+        imageLoader.displayTargetImage(this, url, new CustomTarget<Bitmap>() {
+
+
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+            }
+        });
     }
 }

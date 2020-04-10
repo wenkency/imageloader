@@ -2,6 +2,7 @@ package cn.carhouse.imageloader;
 
 import android.app.Notification;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
@@ -211,9 +212,16 @@ public interface IImageLoader {
     void displayNotificationImage(Context context, Notification notification, RemoteViews rv,
                                   int viewId, int notificationId, String url);
 
-    void displayTargetImage(Context context, String url, Target target, RequestListener listener);
+    /**
+     * 为非view加载图片
+     */
+    void displayTargetImage(Context context, String url, Target<Bitmap> target, RequestListener listener);
 
-    void displayTargetImage(Context context, String url, Target target);
+    /**
+     * 为非view加载图片
+     */
+    void displayTargetImage(Context context, String url, Target<Bitmap> target);
+
 
     void clear(Context context);
 }

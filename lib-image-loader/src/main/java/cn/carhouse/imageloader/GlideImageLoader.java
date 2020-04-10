@@ -2,6 +2,7 @@ package cn.carhouse.imageloader;
 
 import android.app.Notification;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -347,7 +348,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
      * 为非view加载图片
      */
     @Override
-    public void displayTargetImage(Context context, String url, Target target) {
+    public void displayTargetImage(Context context, String url, Target<Bitmap> target) {
         this.displayTargetImage(context, url, target, null);
     }
 
@@ -355,7 +356,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
      * 为非view加载图片
      */
     @Override
-    public void displayTargetImage(Context context, String url, Target target, RequestListener listener) {
+    public void displayTargetImage(Context context, String url, Target<Bitmap> target, RequestListener listener) {
         RequestBuilder builder = Glide.with(context)
                 .asBitmap()
                 .load(url)
@@ -365,6 +366,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         builder.submit(mWidth, mHeight);
         builder.into(target);
     }
+
 
     /*
      * 初始化Notification Target
