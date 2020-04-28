@@ -23,18 +23,25 @@ public class LoaderUtils {
         into(builder, view, null);
     }
 
-    private static void doInfo(RequestBuilder<Drawable> builder, View view, GlideImageLoader.GlideCustomTarget target) {
+    private static void doInfo(final RequestBuilder<Drawable> builder, final View view, final GlideImageLoader.GlideCustomTarget target) {
         try {
-            int width = view.getMeasuredWidth();
-            int height = view.getMeasuredHeight();
-            if (width > 1 && height > 1) {
-                builder.override(width, height);
-            }
-            if (view instanceof ImageView) {
-                builder.into((ImageView) view);
-            } else if (target != null) {
-                builder.into(target);
-            }
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    int width = view.getMeasuredWidth();
+                    int height = view.getMeasuredHeight();
+                    if (width > 5 && height > 5) {
+                        builder.submit(width, height);
+                        builder.override(width, height);
+                    }
+                    if (view instanceof ImageView) {
+                        builder.into((ImageView) view);
+                    } else if (target != null) {
+                        builder.into(target);
+                    }
+                }
+            });
+
         } catch (Throwable e) {
             e.printStackTrace();
         }
