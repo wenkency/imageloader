@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-
+                // 成功要做什么
             }
 
             @Override
             public void onLoadCleared(@Nullable Drawable placeholder) {
-
+                // 失败要做什么
             }
         });
     }

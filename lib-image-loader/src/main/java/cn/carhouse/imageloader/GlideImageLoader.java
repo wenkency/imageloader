@@ -327,7 +327,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         if (isThumbnail) {
             builder.thumbnail(SIZE_MULTIPLIER);
         }
-        builder.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        builder.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .format(DecodeFormat.PREFER_ARGB_8888)
                 .submit(mWidth, mHeight);
         return builder;
@@ -360,7 +360,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         RequestBuilder builder = Glide.with(context)
                 .asBitmap()
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .format(DecodeFormat.PREFER_ARGB_8888)
                 .listener(listener);
         builder.submit(mWidth, mHeight);
