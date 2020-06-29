@@ -83,6 +83,20 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
     }
 
     @Override
+    public void displayImage(View view, String url, int errorId, int width, int height) {
+        if (view == null || TextUtils.isEmpty(url)) {
+            return;
+        }
+        GlideCustomTarget target = new GlideCustomTarget(view, errorId);
+        RequestBuilder<Drawable> builder = getBuilder(view, url, errorId);
+
+        if (width > 0 && height > 0) {
+            builder.override(width, height);
+        }
+        LoaderUtils.into(builder, view, target);
+    }
+
+    @Override
     public void displayImage(ImageView iv, int resId) {
         displayImage(iv, resId, ERROR_ID);
     }
@@ -109,6 +123,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         LoaderUtils.into(builder, iv);
     }
 
+
     @Override
     public void displayCircleImage(ImageView iv, String url) {
         displayCircleImage(iv, url, ERROR_ID);
@@ -121,6 +136,19 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         RequestBuilder<Drawable> builder = getBuilder(iv, url, errorId).circleCrop();
         LoaderUtils.into(builder, iv);
+    }
+
+    @Override
+    public void displayCircleImage(View view, String url, int errorId, int width, int height) {
+        if (view == null || TextUtils.isEmpty(url)) {
+            return;
+        }
+        GlideCustomTarget target = new GlideCustomTarget(view, errorId);
+        RequestBuilder<Drawable> builder = getBuilder(view, url, errorId).circleCrop();
+        if (width > 0 && height > 0) {
+            builder.override(width, height);
+        }
+        LoaderUtils.into(builder, view, target);
     }
 
     @Override
@@ -170,23 +198,6 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         displayImage(view, url, ERROR_ID, width, height);
     }
 
-    @Override
-    public void displayImage(View view, String url, int errorId, int width, int height) {
-        if (view == null || TextUtils.isEmpty(url)) {
-            return;
-        }
-        GlideCustomTarget target = new GlideCustomTarget(view, errorId);
-        RequestBuilder<Drawable> builder = getBuilder(view, url, errorId);
-        if (width > 0 && height > 0) {
-            builder.override(width, height);
-        }
-        if (view instanceof ImageView) {
-            builder.into((ImageView) view);
-        } else {
-            builder.into(target);
-        }
-
-    }
 
     @Override
     public void displayImage(View view, int resId) {
@@ -210,14 +221,14 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     @Override
     public void displayCircleImage(View view, String url, int errorId) {
-        if (view == null || TextUtils.isEmpty(url)) {
-            return;
-        }
-        GlideCustomTarget target = new GlideCustomTarget(view, errorId);
-        RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
-                .circleCrop();
-        LoaderUtils.into(builder, view, target);
+        displayCircleImage(view, url, ERROR_ID, 0, 0);
     }
+
+    @Override
+    public void displayCircleImage(View view, String url, int width, int height) {
+        displayCircleImage(view, url, ERROR_ID, width, height);
+    }
+
 
     @Override
     public void displayRadiusImage(View view, String url, int radius) {
@@ -226,12 +237,25 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     @Override
     public void displayRadiusImage(View view, String url, int radius, int errorId) {
+        displayRadiusImage(view, url, radius, errorId, 0, 0);
+    }
+
+    @Override
+    public void displayRadiusImage(View view, String url, int radius, int width, int height) {
+        displayRadiusImage(view, url, radius, ERROR_ID, width, height);
+    }
+
+    @Override
+    public void displayRadiusImage(View view, String url, int radius, int errorId, int width, int height) {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .transform(new GlideCircleTransform(view.getContext(), radius));
+        if (width > 0 && height > 0) {
+            builder.override(width, height);
+        }
         LoaderUtils.into(builder, view, target);
     }
 
@@ -268,17 +292,30 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     @Override
     public void displayBlurImage(View view, String url, int radius) {
-        this.displayBlurImage(view, url, radius, ERROR_ID);
+        displayBlurImage(view, url, radius, ERROR_ID);
     }
 
     @Override
     public void displayBlurImage(View view, String url, int radius, int errorId) {
+        displayBlurImage(view, url, radius, ERROR_ID, 0, 0);
+    }
+
+    @Override
+    public void displayBlurImage(View view, String url, int radius, int width, int height) {
+        displayBlurImage(view, url, radius, ERROR_ID, width, height);
+    }
+
+    @Override
+    public void displayBlurImage(View view, String url, int radius, int errorId, int width, int height) {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
                 .transform(new BlurTransformation(view.getContext(), radius));
+        if (width > 0 && height > 0) {
+            builder.override(width, height);
+        }
         LoaderUtils.into(builder, view, target);
     }
 

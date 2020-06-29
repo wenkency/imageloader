@@ -38,6 +38,7 @@
             android:layout_height="250dp"
             android:layout_margin="5dp" />
         <View
+            android:background="#45678945"
             android:id="@+id/view"
             android:layout_width="200dp"
             android:layout_height="200dp"

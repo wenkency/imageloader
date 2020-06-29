@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         IImageLoader imageLoader = ImageLoaderFactory.getInstance();
 
         imageLoader.displayImage(iv, url,375,150);
-        imageLoader.displayCircleImage(ivCircle, url);
-        imageLoader.displayRadiusImage(ivRadius, url, 30);
-        imageLoader.displayImage(view, url);
+        imageLoader.displayCircleImage(ivCircle, url,200,200);
+        imageLoader.displayRadiusImage(ivRadius, url, 30,300,300);
+        imageLoader.displayImage(view, url,800,800);
 
         imageLoader.displayImage(viewRes, R.mipmap.ic_launcher);
         imageLoader.displayImage(ivRes, R.mipmap.ic_launcher);

@@ -117,6 +117,10 @@ public interface IImageLoader {
      */
     void displayCircleImage(ImageView iv, String url, int errorId);
 
+    void displayCircleImage(View view, String url, int errorId, int width, int height);
+
+    void displayCircleImage(View view, String url, int width, int height);
+
     /**
      * 加载本地图片
      *
@@ -177,6 +181,10 @@ public interface IImageLoader {
      */
     void displayRadiusImage(View view, String url, int radius, int errorId);
 
+    void displayRadiusImage(View view, String url, int radius, int errorId, int width, int height);
+
+    void displayRadiusImage(View view, String url, int radius, int width, int height);
+
     /**
      * 加载本地图片
      *
@@ -198,6 +206,11 @@ public interface IImageLoader {
     void displayBlurImage(ImageView view, String url, int radius, int errorId);
 
     void displayBlurImage(View view, String url, int radius, int errorId);
+
+    void displayBlurImage(View view, String url, int radius, int errorId, int width, int height);
+
+    void displayBlurImage(View view, String url, int radius, int width, int height);
+
 
     void displayBlurImage(View view, String url, int radius);
 
