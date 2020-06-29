@@ -38,6 +38,9 @@ public interface IImageLoader {
      */
     void displayImage(ImageView iv, String url, int errorId);
 
+    void displayImage(View view, String url, int errorId, int width, int height);
+
+    void displayImage(View view, String url, int width, int height);
 
     /**
      * 加载本地图片

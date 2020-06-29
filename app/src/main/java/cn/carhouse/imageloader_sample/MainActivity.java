@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         IImageLoader imageLoader = ImageLoaderFactory.getInstance();
 
-        imageLoader.displayImage(iv, url);
+        imageLoader.displayImage(iv, url,375,150);
         imageLoader.displayCircleImage(ivCircle, url);
         imageLoader.displayRadiusImage(ivRadius, url, 30);
         imageLoader.displayImage(view, url);
@@ -65,5 +66,19 @@ public class MainActivity extends AppCompatActivity {
                 // 失败要做什么
             }
         });
+        Glide.with(this)
+                .asDrawable()
+                .load("")
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
     }
 }

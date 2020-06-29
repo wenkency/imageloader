@@ -162,12 +162,30 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
 
     @Override
     public void displayImage(final View view, String url, final int errorId) {
+        displayImage(view, url, errorId, 0, 0);
+    }
+
+    @Override
+    public void displayImage(View view, String url, int width, int height) {
+        displayImage(view, url, ERROR_ID, width, height);
+    }
+
+    @Override
+    public void displayImage(View view, String url, int errorId, int width, int height) {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
         GlideCustomTarget target = new GlideCustomTarget(view, errorId);
         RequestBuilder<Drawable> builder = getBuilder(view, url, errorId);
-        LoaderUtils.into(builder, view, target);
+        if (width > 0 && height > 0) {
+            builder.override(width, height);
+        }
+        if (view instanceof ImageView) {
+            builder.into((ImageView) view);
+        } else {
+            builder.into(target);
+        }
+
     }
 
     @Override
@@ -329,7 +347,7 @@ public class GlideImageLoader extends AppGlideModule implements IImageLoader {
         }
         builder.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .format(DecodeFormat.PREFER_ARGB_8888)
-                .submit(mWidth, mHeight);
+                .override(mWidth, mHeight);
         return builder;
     }
 
