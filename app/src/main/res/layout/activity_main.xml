@@ -22,14 +22,14 @@
 
         <ImageView
             android:id="@+id/iv_circle"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_margin="5dp" />
 
         <ImageView
             android:id="@+id/iv_radius"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_margin="5dp" />
 
         <ImageView

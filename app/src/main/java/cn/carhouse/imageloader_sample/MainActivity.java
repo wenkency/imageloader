@@ -36,12 +36,12 @@ public class MainActivity extends AppCompatActivity {
         viewCircle = findViewById(R.id.view_circle);
         viewRadius = findViewById(R.id.view_radius);
 
-        String url = "https://img.car-house.cn/Upload/activity/20191126/EMBkW2wXZ8MHjXDTR8p6PjmcGTD44xdD.gif";
+        String url = "https://buydo.oss-accelerate.aliyuncs.com/buydo/6574697f1f1b4576835cc837697835b4.jpeg";
 
         IImageLoader imageLoader = ImageLoaderFactory.getInstance();
 
         imageLoader.displayImage(iv, url,375,150);
-        imageLoader.displayCircleImage(ivCircle, url,200,200);
+        imageLoader.displayCircleImage(ivCircle, url,400,400);
         imageLoader.displayRadiusImage(ivRadius, url, 30,300,300);
         imageLoader.displayImage(view, url,800,800);
 
