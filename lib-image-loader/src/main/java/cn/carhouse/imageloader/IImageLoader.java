@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 
+import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
@@ -23,54 +24,6 @@ import com.bumptech.glide.request.target.Target;
  * ================================================================
  */
 public interface IImageLoader {
-    /**
-     * 根据URL加载图片
-     *
-     * @param url 图片URL
-     */
-    void displayImage(ImageView iv, String url);
-
-    /**
-     * 根据URL加载图片
-     *
-     * @param url     图片URL
-     * @param errorId 加载失败的显示资源ID
-     */
-    void displayImage(ImageView iv, String url, int errorId);
-
-    void displayImage(View view, String url, int errorId, int width, int height);
-
-    void displayImage(View view, String url, int width, int height);
-
-    /**
-     * 加载本地图片
-     *
-     * @param resId 本地资源
-     */
-    void displayImage(ImageView iv, int resId);
-
-    /**
-     * 加载本地图片
-     *
-     * @param resId   本地资源
-     * @param errorId 加载失败的显示资源ID
-     */
-    void displayImage(ImageView iv, int resId, int errorId);
-
-    /**
-     * 根据URL加载图片
-     *
-     * @param uri 图片Uri
-     */
-    void displayImage(ImageView iv, Uri uri);
-
-    /**
-     * 根据URL加载图片
-     *
-     * @param uri     图片Uri
-     * @param errorId 加载失败的显示资源ID
-     */
-    void displayImage(ImageView iv, Uri uri, int errorId);
 
     /**
      * 根据URL加载图片
@@ -78,6 +31,13 @@ public interface IImageLoader {
      * @param url 图片URL
      */
     void displayImage(View view, String url);
+    void displayImage(View view, GlideUrl url);
+    /**
+     * 加载本地图片
+     *
+     * @param resId 本地资源
+     */
+    void displayImage(View view, int resId);
 
     /**
      * 根据URL加载图片
@@ -86,13 +46,7 @@ public interface IImageLoader {
      * @param errorId 加载失败的显示资源ID
      */
     void displayImage(View view, String url, int errorId);
-
-    /**
-     * 加载本地图片
-     *
-     * @param resId 本地资源
-     */
-    void displayImage(View view, int resId);
+    void displayImage(View view, GlideUrl url, int errorId);
 
     /**
      * 加载本地图片
@@ -102,24 +56,8 @@ public interface IImageLoader {
      */
     void displayImage(View view, int resId, int errorId);
 
-    /**
-     * 根据URL加载圆形图片
-     *
-     * @param url 图片URL
-     */
-    void displayCircleImage(ImageView iv, String url);
 
-    /**
-     * 根据URL加载圆形图片
-     *
-     * @param url     图片URL
-     * @param errorId 加载失败的显示资源ID
-     */
-    void displayCircleImage(ImageView iv, String url, int errorId);
 
-    void displayCircleImage(View view, String url, int errorId, int width, int height);
-
-    void displayCircleImage(View view, String url, int width, int height);
 
     /**
      * 加载本地图片
@@ -127,6 +65,13 @@ public interface IImageLoader {
      * @param resId 本地资源
      */
     void displayCircleImage(View view, int resId);
+    /**
+     * 根据URL加载圆形图片
+     *
+     * @param url 图片URL
+     */
+    void displayCircleImage(View view, String url);
+    void displayCircleImage(View view, GlideUrl url);
 
     /**
      * 加载本地图片
@@ -139,32 +84,11 @@ public interface IImageLoader {
     /**
      * 根据URL加载圆形图片
      *
-     * @param url 图片URL
-     */
-    void displayCircleImage(View view, String url);
-
-    /**
-     * 根据URL加载圆形图片
-     *
      * @param url     图片URL
      * @param errorId 加载失败的显示资源ID
      */
     void displayCircleImage(View view, String url, int errorId);
-
-    /**
-     * 根据URL加载圆角图片
-     *
-     * @param url 图片URL
-     */
-    void displayRadiusImage(ImageView iv, String url, int radius);
-
-    /**
-     * 根据URL加载圆角图片
-     *
-     * @param url     图片URL
-     * @param errorId 加载失败的显示资源ID
-     */
-    void displayRadiusImage(ImageView iv, String url, int radius, int errorId);
+    void displayCircleImage(View view, GlideUrl url, int errorId);
 
     /**
      * 根据URL加载圆角图片
@@ -172,6 +96,14 @@ public interface IImageLoader {
      * @param url 图片URL
      */
     void displayRadiusImage(View view, String url, int radius);
+    void displayRadiusImage(View view, GlideUrl url, int radius);
+
+    /**
+     * 加载本地图片
+     *
+     * @param resId 本地资源
+     */
+    void displayRadiusImage(View view, int resId, int radius);
 
     /**
      * 根据URL加载圆角图片
@@ -180,17 +112,7 @@ public interface IImageLoader {
      * @param errorId 加载失败的显示资源ID
      */
     void displayRadiusImage(View view, String url, int radius, int errorId);
-
-    void displayRadiusImage(View view, String url, int radius, int errorId, int width, int height);
-
-    void displayRadiusImage(View view, String url, int radius, int width, int height);
-
-    /**
-     * 加载本地图片
-     *
-     * @param resId 本地资源
-     */
-    void displayRadiusImage(View view, int resId, int radius);
+    void displayRadiusImage(View view, GlideUrl url, int radius, int errorId);
 
     /**
      * 加载本地图片
@@ -201,18 +123,13 @@ public interface IImageLoader {
     void displayRadiusImage(View view, int resId, int radius, int errorId);
 
 
-    void displayBlurImage(ImageView view, String url, int radius);
-
-    void displayBlurImage(ImageView view, String url, int radius, int errorId);
-
     void displayBlurImage(View view, String url, int radius, int errorId);
-
-    void displayBlurImage(View view, String url, int radius, int errorId, int width, int height);
-
-    void displayBlurImage(View view, String url, int radius, int width, int height);
-
+    void displayBlurImage(View view, GlideUrl url, int radius, int errorId);
+    void displayBlurImage(View view,int resId, int radius, int errorId);
 
     void displayBlurImage(View view, String url, int radius);
+    void displayBlurImage(View view, GlideUrl url, int radius);
+    void displayBlurImage(View view, int resId, int radius);
 
 
     /**

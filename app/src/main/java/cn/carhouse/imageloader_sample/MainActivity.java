@@ -3,6 +3,7 @@ package cn.carhouse.imageloader_sample;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,19 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 import cn.carhouse.imageloader.IImageLoader;
 import cn.carhouse.imageloader.ImageLoaderFactory;
-import cn.carhouse.imageloader_sample.base64.Base64Url;
+import cn.carhouse.imageloader_sample.okhttp3.OkGlideUrl;
+import cn.carhouse.imageloader_sample.okhttp3.OkHttpUrlLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,27 +41,32 @@ public class MainActivity extends AppCompatActivity {
         viewCircle = findViewById(R.id.view_circle);
         viewRadius = findViewById(R.id.view_radius);
 
+
+        loadImage();
+    }
+
+    private void loadImage(){
         String url = "https://buydo.oss-accelerate.aliyuncs.com/buydo/6574697f1f1b4576835cc837697835b4.jpeg";
 
         // 加载Base64图片
         String base64 =
-                "https://h5.vd.vsxqrhvt.com/uploadPath/2023/06/09/1686296731976_20230609154537A002.ae?auth_key=1686298780-0-0-6bb6b98dafa5f34f8426912ccb020a47";
-        Glide.with(this)
-                .load(new Base64Url(base64))
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                .into(iv);
+"https://h5.vd.vsxqrhvt.com/uploadPath/2023/07/06/%E6%8A%BD%E5%A5%96%E5%BC%B9%E7%AA%97banner1_20230706160801A007_ae.%7B%7D?auth_key=1689524958-0-0-4306553fd0c8a1b4f48c485e47ba825b";
 
+        Log.e("TAGS","Main");
+        //Glide.with(iv).load(new OkGlideUrl(base64)).into(iv);
         IImageLoader imageLoader = ImageLoaderFactory.getInstance();
 
-        imageLoader.displayImage(view, url, 800, 800);
-        imageLoader.displayBlurImage(ivBlur, url, 50);
-        imageLoader.displayCircleImage(ivCircle, url, 400, 400);
-        imageLoader.displayRadiusImage(ivRadius, url, 30, 300, 300);
+        imageLoader.displayRadiusImage(iv,new OkGlideUrl(base64),50);
 
-        imageLoader.displayImage(viewRes, R.mipmap.ic_launcher);
-        imageLoader.displayImage(ivRes, R.mipmap.ic_launcher);
-        imageLoader.displayCircleImage(viewCircle, R.mipmap.ic_launcher);
-        imageLoader.displayRadiusImage(viewRadius, R.mipmap.ic_launcher, 10);
+        imageLoader.displayImage(view, new OkGlideUrl(url));
+        imageLoader.displayBlurImage(ivBlur, url, 10);
+        imageLoader.displayCircleImage(ivCircle, url);
+        imageLoader.displayRadiusImage(ivRadius, url, 50);
+
+        imageLoader.displayImage(viewRes, R.mipmap.aaa);
+        imageLoader.displayImage(ivRes, R.mipmap.aaa);
+        imageLoader.displayCircleImage(viewCircle, R.mipmap.aaa);
+        imageLoader.displayRadiusImage(viewRadius, R.mipmap.aaa, 50);
 
 
         // 去加载图片，要自己在onResourceReady处理
@@ -83,7 +83,5 @@ public class MainActivity extends AppCompatActivity {
                 // 失败要做什么
             }
         });
-
-
     }
 }
