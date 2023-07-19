@@ -56,17 +56,17 @@ public class MainActivity extends AppCompatActivity {
         //Glide.with(iv).load(new OkGlideUrl(base64)).into(iv);
         IImageLoader imageLoader = ImageLoaderFactory.getInstance();
 
-        imageLoader.displayRadiusImage(iv,new OkGlideUrl(base64),50);
+        imageLoader.displayRadiusImage(iv,new OkGlideUrl(url),5);
 
         imageLoader.displayImage(view, new OkGlideUrl(url));
         imageLoader.displayBlurImage(ivBlur, url, 10);
         imageLoader.displayCircleImage(ivCircle, url);
-        imageLoader.displayRadiusImage(ivRadius, url, 50);
+        imageLoader.displayRadiusImage(ivRadius, url, 20);
 
         imageLoader.displayImage(viewRes, R.mipmap.aaa);
         imageLoader.displayImage(ivRes, R.mipmap.aaa);
         imageLoader.displayCircleImage(viewCircle, R.mipmap.aaa);
-        imageLoader.displayRadiusImage(viewRadius, R.mipmap.aaa, 50);
+        imageLoader.displayRadiusImage(viewRadius, R.mipmap.aaa, 10);
 
 
         // 去加载图片，要自己在onResourceReady处理

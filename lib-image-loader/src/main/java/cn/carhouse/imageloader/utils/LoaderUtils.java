@@ -19,10 +19,6 @@ public class LoaderUtils {
         doInfo(builder, view, target);
     }
 
-    public static void into(final RequestBuilder<Drawable> builder, final View view) {
-        into(builder, view, null);
-    }
-
     private static void doInfo(final RequestBuilder<Drawable> builder,
                                final View view,
                                final GlideImageLoader.GlideCustomTarget target) {

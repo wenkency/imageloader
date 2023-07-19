@@ -16,8 +16,10 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.NotificationTarget;
@@ -30,9 +32,7 @@ import cn.carhouse.imageloader.utils.LoaderUtils;
 
 /**
  * ================================================================
- * 版权: 爱车小屋所有（C） 2019
  * <p>
- * 作者：刘付文 （61128910@qq.com）
  * <p>
  * 时间: 2019ERROR_ID1ERROR_ID5 09:05
  * <p>
@@ -51,12 +51,12 @@ public class GlideImageLoader implements IImageLoader {
 
 
     @Override
-    public void displayImage(final View view, String url) {
+    public <T extends View> void displayImage(T view, String url) {
         displayImage(view, url, ERROR_ID);
     }
 
     @Override
-    public void displayImage(final View view, final String url, final int errorId) {
+    public <T extends View> void displayImage(final T view, final String url, final int errorId) {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
@@ -72,12 +72,12 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     @Override
-    public void displayImage(View view, GlideUrl url) {
+    public <T extends View> void displayImage(T view, GlideUrl url) {
         displayImage(view, url, ERROR_ID);
     }
 
     @Override
-    public void displayImage(final View view, final GlideUrl url, final int errorId) {
+    public <T extends View> void displayImage(final T view, final GlideUrl url, final int errorId) {
         if (view == null || url == null) {
             return;
         }
@@ -93,12 +93,12 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     @Override
-    public void displayImage(View view, int resId) {
+    public <T extends View> void displayImage(T view, int resId) {
         displayImage(view, resId, ERROR_ID);
     }
 
     @Override
-    public void displayImage(final View view, final int resId, final int errorId) {
+    public <T extends View> void displayImage(final T view, final int resId, final int errorId) {
         if (view == null) {
             return;
         }
@@ -115,12 +115,12 @@ public class GlideImageLoader implements IImageLoader {
 
 
     @Override
-    public void displayCircleImage(View view, String url) {
+    public <T extends View> void displayCircleImage(T view, String url) {
         displayCircleImage(view, url, ERROR_ID);
     }
 
     @Override
-    public void displayCircleImage(final View view, final String url, final int errorId) {
+    public <T extends View> void displayCircleImage(final T view, final String url, final int errorId) {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
@@ -128,20 +128,26 @@ public class GlideImageLoader implements IImageLoader {
             @Override
             public void run() {
                 GlideCustomTarget target = new GlideCustomTarget(view, errorId);
-                RequestBuilder<Drawable> builder = getBuilder(view, url, errorId).circleCrop();
+                MultiTransformation<Bitmap> transformation = new MultiTransformation<>(
+                        new CenterCrop(),
+                        new GlideCircleTransform(view.getContext(), view.getMeasuredWidth())
+                );
+                RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
+                        .transform(transformation);
                 LoaderUtils.into(builder, view, target);
+
             }
         });
 
     }
 
     @Override
-    public void displayCircleImage(View view, GlideUrl url) {
+    public <T extends View> void displayCircleImage(T view, GlideUrl url) {
         displayCircleImage(view, url, ERROR_ID);
     }
 
     @Override
-    public void displayCircleImage(final View view, final GlideUrl url, final int errorId) {
+    public <T extends View> void displayCircleImage(final T view, final GlideUrl url, final int errorId) {
         if (view == null || url == null) {
             return;
         }
@@ -149,7 +155,12 @@ public class GlideImageLoader implements IImageLoader {
             @Override
             public void run() {
                 GlideCustomTarget target = new GlideCustomTarget(view, errorId);
-                RequestBuilder<Drawable> builder = getBuilder(view, url, errorId).circleCrop();
+                MultiTransformation<Bitmap> transformation = new MultiTransformation<>(
+                        new CenterCrop(),
+                        new GlideCircleTransform(view.getContext(), view.getMeasuredWidth())
+                );
+                RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
+                        .transform(transformation);
                 LoaderUtils.into(builder, view, target);
             }
         });
@@ -157,12 +168,12 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     @Override
-    public void displayCircleImage(View view, int resId) {
+    public <T extends View> void displayCircleImage(T view, int resId) {
         displayCircleImage(view, resId, ERROR_ID);
     }
 
     @Override
-    public void displayCircleImage(final View view, final int resId, final int errorId) {
+    public <T extends View> void displayCircleImage(final T view, final int resId, final int errorId) {
         if (view == null) {
             return;
         }
@@ -170,8 +181,12 @@ public class GlideImageLoader implements IImageLoader {
             @Override
             public void run() {
                 GlideCustomTarget target = new GlideCustomTarget(view, errorId);
+                MultiTransformation<Bitmap> transformation = new MultiTransformation<>(
+                        new CenterCrop(),
+                        new GlideCircleTransform(view.getContext(), view.getMeasuredWidth())
+                );
                 RequestBuilder<Drawable> builder = getBuilder(view, resId, errorId)
-                        .circleCrop();
+                        .transform(transformation);
                 LoaderUtils.into(builder, view, target);
             }
         });
@@ -180,7 +195,7 @@ public class GlideImageLoader implements IImageLoader {
 
 
     @Override
-    public void displayRadiusImage(final View view, final String url, final int radius, final int errorId) {
+    public <T extends View> void displayRadiusImage(final T view, final String url, final int radius, final int errorId) {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
@@ -188,8 +203,12 @@ public class GlideImageLoader implements IImageLoader {
             @Override
             public void run() {
                 GlideCustomTarget target = new GlideCustomTarget(view, errorId);
+                MultiTransformation<Bitmap> transformation = new MultiTransformation<>(
+                        new CenterCrop(),
+                        new GlideCircleTransform(view.getContext(), radius)
+                );
                 RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
-                        .transform(new GlideCircleTransform(view.getContext(), radius));
+                        .transform(transformation);
                 LoaderUtils.into(builder, view, target);
             }
         });
@@ -197,18 +216,18 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     @Override
-    public void displayRadiusImage(View view, String url, int radius) {
+    public <T extends View> void displayRadiusImage(T view, String url, int radius) {
         displayRadiusImage(view, url, radius, ERROR_ID);
     }
 
     @Override
-    public void displayRadiusImage(View view, GlideUrl url, int radius) {
+    public <T extends View> void displayRadiusImage(T view, GlideUrl url, int radius) {
         displayRadiusImage(view, url, radius, ERROR_ID);
     }
 
     @Override
-    public void displayRadiusImage(final View view, final GlideUrl url,
-                                   final int radius, final int errorId) {
+    public <T extends View> void displayRadiusImage(final T view, final GlideUrl url,
+                                                    final int radius, final int errorId) {
         if (view == null || url == null) {
             return;
         }
@@ -216,8 +235,12 @@ public class GlideImageLoader implements IImageLoader {
             @Override
             public void run() {
                 GlideCustomTarget target = new GlideCustomTarget(view, errorId);
+                MultiTransformation<Bitmap> transformation = new MultiTransformation<>(
+                        new CenterCrop(),
+                        new GlideCircleTransform(view.getContext(), radius)
+                );
                 RequestBuilder<Drawable> builder = getBuilder(view, url, errorId)
-                        .transform(new GlideCircleTransform(view.getContext(), radius));
+                        .transform(transformation);
                 LoaderUtils.into(builder, view, target);
             }
         });
@@ -225,13 +248,13 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     @Override
-    public void displayRadiusImage(View view, int resId, int radius) {
+    public <T extends View> void displayRadiusImage(T view, int resId, int radius) {
         displayRadiusImage(view, resId, radius, ERROR_ID);
     }
 
 
     @Override
-    public void displayRadiusImage(final View view, final int resId, final int radius, final int errorId) {
+    public <T extends View> void displayRadiusImage(final T view, final int resId, final int radius, final int errorId) {
         if (view == null) {
             return;
         }
@@ -239,8 +262,13 @@ public class GlideImageLoader implements IImageLoader {
             @Override
             public void run() {
                 GlideCustomTarget target = new GlideCustomTarget(view, errorId);
+
+                MultiTransformation<Bitmap> transformation = new MultiTransformation<>(
+                        new CenterCrop(),
+                        new GlideCircleTransform(view.getContext(), radius)
+                );
                 RequestBuilder<Drawable> builder = getBuilder(view, resId, errorId)
-                        .transform(new GlideCircleTransform(view.getContext(), radius));
+                        .transform(transformation);
                 LoaderUtils.into(builder, view, target);
             }
         });
@@ -248,22 +276,22 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     @Override
-    public void displayBlurImage(View view, int resId, int radius) {
+    public <T extends View> void displayBlurImage(T view, int resId, int radius) {
         displayBlurImage(view, resId, radius, ERROR_ID);
     }
 
     @Override
-    public void displayBlurImage(View view, GlideUrl url, int radius) {
+    public <T extends View> void displayBlurImage(T view, GlideUrl url, int radius) {
         displayBlurImage(view, url, radius, ERROR_ID);
     }
 
     @Override
-    public void displayBlurImage(View view, String url, int radius) {
+    public <T extends View> void displayBlurImage(T view, String url, int radius) {
         displayBlurImage(view, url, radius, ERROR_ID);
     }
 
     @Override
-    public void displayBlurImage(final View view, final int resId, final int radius, final int errorId) {
+    public <T extends View> void displayBlurImage(final T view, final int resId, final int radius, final int errorId) {
         if (view == null) {
             return;
         }
@@ -280,7 +308,7 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     @Override
-    public void displayBlurImage(final View view, final GlideUrl url, final int radius, final int errorId) {
+    public <T extends View> void displayBlurImage(final T view, final GlideUrl url, final int radius, final int errorId) {
         if (view == null || url == null) {
             return;
         }
@@ -297,7 +325,7 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     @Override
-    public void displayBlurImage(final View view, final String url, final int radius, final int errorId) {
+    public <T extends View> void displayBlurImage(final T view, final String url, final int radius, final int errorId) {
         if (view == null || TextUtils.isEmpty(url)) {
             return;
         }
@@ -318,11 +346,11 @@ public class GlideImageLoader implements IImageLoader {
         Glide.get(context).clearMemory();
     }
 
-    public static class GlideCustomTarget extends CustomTarget<Drawable> {
-        private View view;
+    public static class GlideCustomTarget<T extends View> extends CustomTarget<Drawable> {
+        private T view;
         private int errorId;
 
-        public GlideCustomTarget(View view, int errorId) {
+        public GlideCustomTarget(T view, int errorId) {
             this.view = view;
             this.errorId = errorId;
         }
@@ -352,20 +380,20 @@ public class GlideImageLoader implements IImageLoader {
     }
 
 
-    private RequestBuilder<Drawable> getBuilder(View view, String url, int errorId) {
+    private <T extends View> RequestBuilder<Drawable> getBuilder(T view, String url, int errorId) {
         return getRequestBuilder(view, Glide.with(view).load(url), errorId);
     }
 
-    private RequestBuilder<Drawable> getBuilder(View view, GlideUrl url, int errorId) {
+    private <T extends View> RequestBuilder<Drawable> getBuilder(T view, GlideUrl url, int errorId) {
         return getRequestBuilder(view, Glide.with(view).load(url), errorId);
     }
 
-    private RequestBuilder<Drawable> getBuilder(View view, int resId, int errorId) {
+    private <T extends View> RequestBuilder<Drawable> getBuilder(T view, int resId, int errorId) {
         return getRequestBuilder(view, Glide.with(view).load(resId), errorId);
     }
 
 
-    private RequestBuilder<Drawable> getRequestBuilder(View view, RequestBuilder<Drawable> builder, int errorId) {
+    private <T extends View> RequestBuilder<Drawable> getRequestBuilder(T view, RequestBuilder<Drawable> builder, int errorId) {
         if (errorId == ERROR_ID) {
             builder.error(mErrorDrawable)
                     .placeholder(mLoadingDrawable);

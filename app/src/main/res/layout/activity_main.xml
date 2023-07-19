@@ -19,11 +19,12 @@
             android:layout_width="200dp"
             android:layout_height="120dp"
             android:layout_margin="5dp"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop" />
 
         <ImageView
             android:id="@+id/iv_circle"
             android:layout_width="100dp"
+            android:scaleType="centerCrop"
             android:layout_height="100dp"
             android:layout_margin="5dp" />
 
